@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>200 Ready-to-Use Social Media Captions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0; background: #F5F4EE; color: #2D2A26;
+    font-family: -apple-system, sans-serif; line-height: 1.6;
+  }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 60px 24px 100px; }
+  .eyebrow { text-align: center; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #A56A45; margin-bottom: 14px; }
+  h1 { font-family: 'Fraunces', serif; font-size: 34px; text-align: center; margin: 0 0 16px; line-height: 1.2; }
+  .sub { text-align: center; color: #87837A; font-size: 16px; max-width: 460px; margin: 0 auto 36px; }
+  .price-box {
+    background: #FFFFFF; border: 1px solid #E4E1D6; border-radius: 16px;
+    padding: 32px; text-align: center; margin-bottom: 40px;
+  }
+  .price { font-size: 42px; font-weight: 700; margin-bottom: 4px; }
+  .price-note { color: #87837A; font-size: 13px; margin-bottom: 24px; }
+  button.buy-btn {
+    background: #D97757; color: #FFFFFF; border: none; cursor: pointer;
+    font-weight: 600; font-size: 16px; padding: 16px 40px; border-radius: 10px;
+  }
+  button.buy-btn:disabled { opacity: 0.6; cursor: default; }
+  .note { font-size: 12px; color: #A56A45; margin-top: 16px; }
+  .error { color: #B34B3C; font-size: 13px; margin-top: 14px; }
+  .features { margin: 40px 0; }
+  .feature { display: flex; gap: 14px; margin-bottom: 20px; align-items: flex-start; }
+  .feature .dot { width: 6px; height: 6px; border-radius: 50%; background: #D97757; margin-top: 8px; flex-shrink: 0; }
+  .feature p { margin: 0; }
+  .feature strong { display: block; margin-bottom: 2px; }
+  footer { text-align: center; color: #87837A; font-size: 12px; margin-top: 60px; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="eyebrow">Digital download &middot; Instant PDF</div>
+  <h1>200 Ready-to-Use Social Media Captions</h1>
+  <p class="sub">Fill-in-the-blank templates for 10 types of small business, plus a personal guide on captions, hashtags, and posting rhythm.</p>
+
+  <div class="price-box">
+    <div class="price">$29</div>
+    <div class="price-note">one-time payment &middot; paid via crypto</div>
+    <button class="buy-btn" id="buyBtn" onclick="buy()">Get the PDF</button>
+    <div class="note">You'll be redirected straight to your download after payment.</div>
+    <div class="error" id="errorMsg" style="display:none;"></div>
+  </div>
+
+  <div class="features">
+    <div class="feature">
+      <div class="dot"></div>
+      <p><strong>200 templates across 10 niches</strong>Coffee shops, beauty salons, fitness, retail, restaurants, handmade, real estate, photography, cosmetics, and universal/holiday posts.</p>
+    </div>
+    <div class="feature">
+      <div class="dot"></div>
+      <p><strong>Filled-in examples</strong>Every category opens with a real, completed caption -- not just brackets to guess at.</p>
+    </div>
+    <div class="feature">
+      <div class="dot"></div>
+      <p><strong>Hashtag sets included</strong>Ready-to-copy hashtag groups for every category, no extra research needed.</p>
+    </div>
+    <div class="feature">
+      <div class="dot"></div>
+      <p><strong>Quick-start guide</strong>How to write captions that get read, hashtag strategy, and best times to post.</p>
+    </div>
+    <div class="feature">
+      <div class="dot"></div>
+      <p><strong>Bonus toolkit</strong>10 reusable caption formulas, 20 power words, and a simple weekly posting rhythm.</p>
+    </div>
+  </div>
+
+  <footer>TagGenerator AI &middot; a project by Ksenia</footer>
+</div>
+
+<script>
+  async function buy() {
+    const btn = document.getElementById('buyBtn');
+    const errorMsg = document.getElementById('errorMsg');
+    btn.disabled = true;
+    btn.textContent = 'Preparing payment...';
+    errorMsg.style.display = 'none';
+
+    try {
+      const res = await fetch('/api/create-payment', { method: 'POST' });
+      const data = await res.json();
+
+      if (data.paymentUrl) {
+        window.location.href = data.paymentUrl;
+      } else {
+        throw new Error(data.error || 'Something went wrong');
+      }
+    } catch (err) {
+      errorMsg.textContent = 'Error: ' + err.message;
+      errorMsg.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Get the PDF';
+    }
+  }
+</script>
+
+</body>
+</html>
